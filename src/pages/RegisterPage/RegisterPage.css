@@ -1,0 +1,68 @@
+/* src/pages/RegisterPage.css - My styles specific to the Register Page */
+
+.register-page-container {
+    display: flex; /* I want to center the form on the page. */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Some padding around the content. */
+    min-height: calc(100vh - 160px); /* Adjusting for navbar and footer height, approximately. */
+  }
+  
+  .register-form-wrapper {
+    background-color: #fff; /* Giving the form a white background. */
+    padding: 30px 40px; /* More padding inside the form wrapper. */
+    border-radius: 8px; /* Rounded corners for a softer look. */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth. */
+    width: 100%;
+    max-width: 450px; /* Limiting the width of the form for better readability. */
+    text-align: center; /* Centering the text elements like h2 and p. */
+  }
+  
+  .register-form-wrapper h2 {
+    margin-bottom: 10px; /* Space below the main heading. */
+    color: #333;
+  }
+  
+  .register-form-wrapper p {
+    margin-bottom: 20px; /* Space below the introductory paragraph. */
+    color: #555;
+    font-size: 0.95rem;
+  }
+  
+  .register-form .form-group {
+    margin-bottom: 20px; /* Increasing space between form groups. */
+    text-align: left; /* Aligning labels and inputs to the left for standard form layout. */
+  }
+  
+  .register-form .form-group label {
+    font-weight: 600; /* Making labels a bit bolder. */
+  }
+  
+  /* Ensuring the submit button takes full width for a modern look. */
+  .btn-register {
+    width: 100%;
+    padding: 12px 15px; /* Making the button a bit larger. */
+    font-size: 1.1rem; /* Larger font size for the button text. */
+    margin-top: 10px; /* Some space above the button. */
+  }
+  
+  .form-error-message.general-error {
+    background-color: #ffebee; /* Light red background for general errors */
+    color: #c62828; /* Darker red text */
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border: 1px solid #ef9a9a;
+    text-align: left;
+  }
+  
+  .login-prompt {
+    margin-top: 25px; /* More space above the "Already have an account?" link. */
+    font-size: 0.9rem;
+  }
+  
+  .login-prompt a {
+    color: #007bff; /* Standard link color. */
+    font-weight: bold;
+  }

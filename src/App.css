@@ -1,0 +1,120 @@
+/* src/App.css - My main global styles for the application layout. */
+
+/* I want my app to take up at least the full viewport height. */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* The main content area should expand to fill available space. */
+  .main-content {
+    flex-grow: 1; /* This makes the main content take up the space between navbar and footer. */
+    padding: 20px; /* Adding some padding around the main content area. */
+    max-width: 1200px; /* Setting a max-width for better readability on large screens. */
+    margin: 0 auto; /* Centering the content area. */
+    width: 100%; /* Ensuring it takes up width within its constraints. */
+  }
+  
+  /* Basic styling for links - I can override this in specific components. */
+  a {
+    color: #007bff; /* A standard blue for links. */
+    text-decoration: none; /* Removing underlines by default. */
+  }
+  
+  a:hover {
+    text-decoration: underline; /* Adding underline on hover for better UX. */
+  }
+  
+  /* Basic button styling - I'll likely create a more specific Button component later. */
+  button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  }
+  
+  button.primary {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  button.primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  /* Centering text utility class */
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Simple container class for consistent padding and max-width */
+  .container {
+      padding: 0 1rem; /* Equivalent to 16px padding on sides */
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+  }
+  
+  /* Responsive container widths */
+  @media (min-width: 576px) { /* Small devices (landscape phones, 576px and up) */
+      .container {
+          max-width: 540px;
+      }
+  }
+  @media (min-width: 768px) { /* Medium devices (tablets, 768px and up) */
+      .container {
+          max-width: 720px;
+      }
+  }
+  @media (min-width: 992px) { /* Large devices (desktops, 992px and up) */
+      .container {
+          max-width: 960px;
+      }
+  }
+  @media (min-width: 1200px) { /* Extra large devices (large desktops, 1200px and up) */
+      .container {
+          max-width: 1140px;
+      }
+  }
+  
+  /* Basic form styling */
+  .form-group {
+    margin-bottom: 1rem; /* Spacing between form elements */
+  }
+  
+  .form-group label {
+    display: block; /* Make labels take full width for better alignment */
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"],
+  .form-group input[type="date"],
+  .form-group input[type="number"],
+  .form-group textarea,
+  .form-group select {
+    width: 100%; /* Make form inputs take full width of their container */
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important to include padding and border in the element's total width and height */
+    font-size: 1rem;
+  }
+  
+  .form-group textarea {
+      min-height: 100px; /* Give textareas a bit more height */
+      resize: vertical; /* Allow vertical resizing */
+  }
+  
+  .form-error-message {
+      color: red;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+  }

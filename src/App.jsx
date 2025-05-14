@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/navbar.jsx';
 import Footer from './components/Footer/footer.jsx';
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx'; // I've imported my new RegisterPage.
+import LoginPage from './pages/LoginPage/LoginPage.jsx';
+
 // import HomePage from './pages/HomePage';
-// import LoginPage from './pages/LoginPage';
+
 // import DashboardPage from './pages/DashboardPage';
 // import TripDetailsPage from './pages/TripDetailsPage';
 // import SearchPage from './pages/SearchPage';
@@ -24,9 +26,10 @@ function App() {
             
             <Route path="/register" element={<RegisterPage />} /> {/* I've added the route for my register page. */}
 
+            <Route path="/login" element={<LoginPage />} />
             {/*
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
+            
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/trip/:tripId" element={<TripDetailsPage />} />
             <Route path="/search" element={<SearchPage />} />

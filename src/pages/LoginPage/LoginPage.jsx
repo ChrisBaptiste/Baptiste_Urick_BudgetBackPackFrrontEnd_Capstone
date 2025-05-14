@@ -1,8 +1,9 @@
-// src/pages/LoginPage.jsx
+// src/pages/LoginPage/LoginPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // I'll use this for redirecting after login.
 import axios from 'axios'; // For making API calls to my backend.
-import './LoginPage.css'; // My specific styles for this login page. // My specific styles for this login page.
+import { useAuth } from '../../context/AuthContext'; // I need to import my useAuth hook to access context.
+import './LoginPage.css'; // My specific styles for this login page.
 
 const LoginPage = () => {
   // I need state to hold the email and password from the form.
@@ -13,13 +14,11 @@ const LoginPage = () => {
 
   // State for loading indication and any error messages from the API.
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(''); // For general login errors.
-  // I might not need field-specific errors for login as much as for registration,
-  // often it's just "Invalid credentials". But let's keep it flexible.
+  const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
 
-
   const navigate = useNavigate(); // Hook for navigation.
+  const { loginAction } = useAuth(); // Getting the loginAction function from my AuthContext.
 
   // This function will update my state when the user types in the form fields.
   const handleChange = (e) => {
@@ -35,45 +34,39 @@ const LoginPage = () => {
   // This function handles the form submission when the user tries to log in.
   const handleSubmit = async (e) => {
     e.preventDefault(); // Preventing the default form submission (page reload).
-    setError(''); // Clearing any previous errors.
-    setFieldErrors({}); // Clearing previous field errors.
-    setLoading(true); // Setting loading state to true.
+    setError('');
+    setFieldErrors({});
+    setLoading(true);
 
     try {
       // My backend login endpoint is '/api/auth/login'.
-      // Vite's proxy will route this to http://localhost:5001/api/auth/login.
       const response = await axios.post('/api/auth/login', formData);
 
       // If login is successful, the backend sends back a token.
       console.log('Login successful:', response.data); // For my debugging.
-      localStorage.setItem('token', response.data.token); // Storing the token in localStorage.
-
-      // TODO: I'll need to update a global auth state here (e.g., Context or Zustand).
-      // This is important for the rest of the app to know the user is logged in.
+      
+      // Instead of directly setting localStorage here, I'll use the loginAction from my context.
+      // The loginAction will handle setting the token in localStorage, updating the context's state,
+      // and setting the axios default header.
+      loginAction(response.data.token); 
 
       setLoading(false);
       // After successful login, I want to redirect the user.
       // For now, let's redirect to the home page ('/').
-      // Later, this might be a dashboard page.
       navigate('/'); 
 
     } catch (err) {
-      setLoading(false); // Resetting loading state.
-      // Handling errors from the API.
+      setLoading(false);
       if (err.response && err.response.data) {
         const responseData = err.response.data;
         if (responseData.errors && Array.isArray(responseData.errors)) {
-          // My backend sends login errors as an array: [{ msg: "Invalid credentials" }]
-          // I'll take the first message as the general error.
           setError(responseData.errors[0]?.msg || 'Login failed. Please try again.');
         } else if (responseData.msg) {
-          // If it's a single 'msg' property.
           setError(responseData.msg);
         } else {
           setError('Login failed. An unknown error occurred.');
         }
       } else {
-        // For network errors or if the server is down.
         setError('Login failed. Could not connect to the server.');
       }
       console.error('Login error:', err); // For my debugging.
@@ -81,13 +74,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-page-container"> {/* Main container for centering the form. */}
-      <div className="login-form-wrapper"> {/* Wrapper for styling the form box. */}
+    <div className="login-page-container">
+      <div className="login-form-wrapper">
         <h2>Welcome Back!</h2>
         <p>Log in to continue planning your adventures with BudgetBackpack.</p>
         
         <form onSubmit={handleSubmit} className="login-form" noValidate>
-          {/* Displaying the general error message if one exists. */}
           {error && <p className="form-error-message general-error">{error}</p>}
           
           <div className="form-group">
@@ -99,10 +91,8 @@ const LoginPage = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              aria-invalid={!!fieldErrors.email || !!error} // Mark as invalid if general error or specific field error
+              aria-invalid={!!fieldErrors.email || !!error}
             />
-            {/* Typically, login errors are general ("Invalid credentials") rather than field-specific */}
-            {/* but I'm leaving this structure in case I want to refine it later. */}
             {fieldErrors.email && <p className="form-error-message">{fieldErrors.email}</p>}
           </div>
 

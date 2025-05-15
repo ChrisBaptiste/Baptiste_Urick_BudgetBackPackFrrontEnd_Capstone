@@ -1,0 +1,21 @@
+/* src/pages/CreateTripPage.css or src/pages/CreateTrip/CreateTripPage.css */
+.create-trip-container {
+    /* Styles for the overall page container if needed beyond global .container */
+    max-width: 700px; /* Making the form a bit wider */
+    margin: 20px auto;
+  }
+  
+  .create-trip-container h2,
+  .create-trip-container p:first-of-type { /* Target the introductory paragraph */
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .trip-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+ 

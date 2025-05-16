@@ -77,10 +77,7 @@ const CreateTripPage = () => {
               newFieldErrors[e.field] = e.msg;
             } else if (e.msg) { // Otherwise, treat as general error
                 // This logic for field mapping from backend needs to match how backend sends errors
-                // For Mongoose 'ValidationError' on trip creation, err.response.data.errors might be an array of {msg}
-                // Let's assume backend for trips sends errors like [{ msg: "...", path: "fieldName" }]
-                // Or from your tripRoutes.js: { errors: messages.map(msg => ({ msg })) }
-                // So 'er' is { msg: "..." }
+                
                 const msgContent = e.msg.toLowerCase();
                 if (msgContent.includes('trip name')) newFieldErrors.tripName = e.msg;
                 else if (msgContent.includes('city')) newFieldErrors.destinationCity = e.msg;

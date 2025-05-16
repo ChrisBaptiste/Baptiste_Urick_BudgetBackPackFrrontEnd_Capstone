@@ -52,7 +52,6 @@ const LoginPage = () => {
 
       setLoading(false);
       // After successful login, I want to redirect the user.
-      // For now, let's redirect to the home page ('/').
       navigate('/'); 
 
     } catch (err) {

@@ -1,0 +1,88 @@
+/* src/pages/DashboardPage.css - My styles for the Dashboard */
+
+.dashboard-container {
+    padding: 20px;
+  }
+  
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .dashboard-header h1 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .dashboard-header p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  .dashboard-actions {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  /* Assuming I have global .btn and .btn-primary styles in App.css */
+  /* If not, I'd style the link/button here. */
+  .dashboard-actions .btn-primary {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    text-decoration: none; /* If it's a Link styled as a button */
+  }
+  
+  .trips-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+  }
+  
+  .trip-list {
+    list-style: none;
+    padding: 0;
+    display: grid; /* Using grid for a nice layout of trip items. */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive columns. */
+    gap: 20px; /* Spacing between trip items. */
+  }
+  
+  .trip-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .trip-item:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover. */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  
+  .trip-item a {
+    text-decoration: none; /* Removing underline from the link covering the trip item. */
+    color: inherit; /* Inheriting text color. */
+    display: block; /* Making the link take up the whole item space. */
+  }
+  
+  .trip-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #007bff; /* Making trip names stand out. */
+  }
+  
+  .trip-item p {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: #666;
+  }
+  
+  .error-message { /* Style for displaying errors */
+    color: red;
+    text-align: center;
+    padding: 10px;
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    border-radius: 4px;
+  }

@@ -30,18 +30,7 @@ export const AuthProvider = ({ children }) => {
       // all subsequent API calls automatically include the token.
       axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
       
-      // TODO: Here, I might want to fetch the user's details using the token
-      // to confirm the token is valid and to get user data.
-      // For example:
-      // axios.get('/api/auth/me') // Assuming I have an endpoint to get current user
-      //   .then(response => setUser(response.data))
-      //   .catch(() => {
-      //     // If fetching user fails (e.g., token invalid), I should clear the token.
-      //     localStorage.removeItem('token');
-      //     setToken(null);
-      //     delete axios.defaults.headers.common['Authorization'];
-      //   })
-      //   .finally(() => setLoading(false));
+      
       // For now, I'll just assume the token is valid if it exists, for simplicity given the deadline.
       setLoading(false); // Placeholder for now
     } else {
@@ -55,8 +44,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', newToken); // Storing the new token.
     setToken(newToken); // Updating the token in my state.
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`; // Setting for future axios calls.
-    // TODO: Fetch user data after login as well.
-    // setUser(userDataFromApi);
   };
 
   // This function will handle user logout.

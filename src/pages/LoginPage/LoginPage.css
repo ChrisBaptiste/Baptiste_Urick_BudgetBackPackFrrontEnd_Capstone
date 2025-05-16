@@ -48,7 +48,6 @@
   }
   
   /* Reusing the general error styling from RegisterPage or App.css for consistency */
-  /* If not already global, I'd add this: */
   .form-error-message.general-error {
     background-color: #ffebee; /* Light red background for general errors */
     color: #c62828; /* Darker red text */
@@ -66,6 +65,6 @@
   }
   
   .register-prompt a {
-    color: #007bff; /* Standard link color. */
+    color: #007bff; /* link color. */
     font-weight: bold;
   }

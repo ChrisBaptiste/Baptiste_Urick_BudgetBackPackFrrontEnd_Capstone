@@ -1,0 +1,53 @@
+/* src/pages/TripDetailsPage.css or path like src/pages/Trip/TripDetailsPage.css */
+.trip-details-container {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+  
+  .trip-details-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .trip-details-header h1 {
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .trip-details-header .trip-destination {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .trip-details-header .trip-dates {
+    font-size: 1rem;
+    color: #777;
+  }
+  
+  .trip-notes-section,
+  .trip-saved-items {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+  }
+  
+  .trip-notes-section h2,
+  .trip-saved-items h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #444;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+  }
+  
+  .trip-notes-section p {
+    line-height: 1.6;
+    white-space: pre-wrap; /* This preserves line breaks and spaces from the notes input. */
+  }
+  
+  

@@ -1,0 +1,19 @@
+/* src/pages/EditTripPage.css */
+.edit-trip-container {
+    max-width: 700px; 
+    margin: 20px auto;
+  }
+  
+  .edit-trip-container h2,
+  .edit-trip-container p:first-of-type {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  
+  .trip-form { 
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }

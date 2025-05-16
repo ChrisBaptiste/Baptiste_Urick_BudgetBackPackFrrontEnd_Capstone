@@ -1,59 +1,84 @@
 /* src/components/Navbar/Navbar.css */
+
 .navbar {
-    background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    color: #fff;
-  }
-  
-  .navbar-container {
-    display: flex;
-    justify-content: space-between; /* Pushes logo to left, menu to right */
-    height: 80px;
-    z-index: 1;
-    width: 100%;
-    max-width: 1300px;
-    padding: 0 24px; /* Added padding */
-  }
-  
-  .navbar-logo {
-    color: #fff;
-    justify-self: start;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-menu {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    text-align: center;
-  }
-  
-  .nav-item {
-    height: 80px;
-  }
-  
-  .nav-links {
-    color: #fff;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding: 0 1rem;
-    height: 100%;
-    cursor: pointer;
-  }
-  
-  .nav-links:hover {
-    border-bottom: 4px solid #fff;
-    transition: all 0.2s ease-out;
-  }
+  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  height: 80px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem; /* Default font size for navbar text items */
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  color: #fff; 
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  height: 100%; /* Make container take full height of navbar */
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px; 
+  margin: 0 auto; 
+  padding: 0 24px; 
+}
+
+.navbar-logo {
+  color: #fff; /* Color for the "BudgetBackpack" text */
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.8rem; /* Font size for the "BudgetBackpack" text, adjust as needed */
+  font-weight: bold; /* Making the text bold */
+  display: flex;
+  align-items: center; /* This is key to align image and text vertically */
+}
+
+.logo-image {
+  height: 60px; /*setting logo size to 60px*/
+  width: auto;  /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between logo image and the "BudgetBackpack" text. */
+  transition: transform 0.2s ease-in-out; /* Smooth transition for the hover effect. */
+}
+
+.logo-image:hover {
+  transform: scale(1.1); /* Expands the logo slightly on hover. */
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
+}
+
+.nav-item {
+  height: 80px; /* Match navbar height for full clickable area */
+}
+
+.nav-links {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem; 
+  height: 100%;
+  cursor: pointer;
+  border: none; 
+  background: none; 
+  font-size: 1rem; /* Font size for other nav links like Dashboard, Search, Login */
+  font-family: inherit; 
+}
+
+.nav-links:hover {
+  color: #ddd; 
+}
+
+.nav-button-logout {
+  /* Inherits .nav-links styles */
+}
+
+.nav-button-logout:hover {
+  color: #ff8a80; /*  slightly different hover for logout if desired */
+}

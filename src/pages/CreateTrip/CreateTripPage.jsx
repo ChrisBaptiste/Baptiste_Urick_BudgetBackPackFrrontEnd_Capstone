@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CreateTripPage.css';
 // I might want some specific CSS for this page later.
-// import './CreateTripPage.css'; 
+
 
 const CreateTripPage = () => {
   // I need state to manage all the form fields for creating a trip.

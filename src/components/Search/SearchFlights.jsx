@@ -1,110 +1,122 @@
+
 // src/components/Search/SearchFlights.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Added useEffect
 import axios from 'axios';
-import './SearchFlights.css'; // I'll create this CSS file.
-
-
+import { useAuth } from '../../context/AuthContext'; // For user trips and token
+import './SearchFlights.css';
 
 const SearchFlights = () => {
-  // State for Flight Search form and results.
-  const [flightSearchData, setFlightSearchData] = useState({
-    origin: '',
-    destination: '',
-    departureDate: '',
-    returnDate: '', 
-    adults: '1',
-  });
+  // ... (existing state: flightSearchData, flightResults, flightLoading, flightError)
+  const [flightSearchData, setFlightSearchData] = useState({ /* ... */ });
   const [flightResults, setFlightResults] = useState([]);
   const [flightLoading, setFlightLoading] = useState(false);
   const [flightError, setFlightError] = useState('');
 
-  const handleFlightChange = (e) => {
-    setFlightSearchData({ ...flightSearchData, [e.target.name]: e.target.value });
-    if (flightError) setFlightError('');
+  const [userTrips, setUserTrips] = useState([]);
+  const [showTripModal, setShowTripModal] = useState(false);
+  const [selectedFlightForSave, setSelectedFlightForSave] = useState(null);
+  const { token } = useAuth();
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      if (!token) return;
+      try {
+        const res = await axios.get('/api/trips');
+        setUserTrips(res.data);
+      } catch (err) {
+        console.error("Failed to fetch user trips", err);
+      }
+    };
+    fetchTrips();
+  }, [token]);
+
+
+  const handleFlightChange = (e) => { /* ... existing ... */ };
+  const handleFlightSearch = async (e) => { /* ... existing ... */ };
+
+  const openSaveToTripModal = (flight) => {
+    setSelectedFlightForSave(flight);
+    setShowTripModal(true);
   };
 
-  const handleFlightSearch = async (e) => {
-    e.preventDefault();
-    setFlightLoading(true);
-    setFlightError('');
-    setFlightResults([]);
-
-    if (!flightSearchData.origin || !flightSearchData.destination || !flightSearchData.departureDate) {
-        setFlightError('Please provide origin, destination, and departure date.');
-        setFlightLoading(false);
-        return;
-    }
-    // Client-side validation for dates
-    if (flightSearchData.returnDate && new Date(flightSearchData.departureDate) > new Date(flightSearchData.returnDate)) {
-        setFlightError('Return date cannot be before departure date.');
-        setFlightLoading(false);
-        return;
-    }
+  const handleSaveFlightToTrip = async (tripId) => {
+    if (!selectedFlightForSave || !tripId) return;
+    
+    // Prepare data according to SavedFlightSchema
+    const flightToSave = {
+        flightApiId: selectedFlightForSave.id, // From API response
+        origin: selectedFlightForSave.departureAirportCode, // Or city
+        destination: selectedFlightForSave.arrivalAirportCode, // Or city
+        departureDate: selectedFlightForSave.departureTimeUTC, // Or local, ensure it's a valid Date
+        price: selectedFlightForSave.price,
+        details: { // Store some key details for display
+            airlineName: selectedFlightForSave.airlineName,
+            flightNumber: selectedFlightForSave.flightNumber,
+            departureCity: selectedFlightForSave.departureCity,
+            arrivalCity: selectedFlightForSave.arrivalCity,
+            durationFormatted: selectedFlightForSave.durationFormatted,
+            bookingLink: selectedFlightForSave.bookingLink, // Good to save this
+            provider: selectedFlightForSave.provider
+        }
+    };
 
     try {
-      const response = await axios.get('/api/search/flights', { params: flightSearchData });
-      setFlightResults(response.data);
-      if (response.data.length === 0) {
-        // If API returns empty array, I want to inform the user.
-        setFlightError('No flights found for your criteria. Try different dates or locations.');
-      }
+      await axios.post(`/api/trips/${tripId}/flights`, flightToSave);
+      alert(`${selectedFlightForSave.airlineName} flight to ${selectedFlightForSave.arrivalCity} saved!`);
+      setShowTripModal(false);
+      setSelectedFlightForSave(null);
     } catch (err) {
-      console.error("Flight search error:", err.response);
-      setFlightError(err.response?.data?.msg || 'Failed to fetch flight data. Please try again.');
-    } finally {
-      setFlightLoading(false);
+      console.error("Error saving flight to trip:", err.response);
+      alert(err.response?.data?.msg || "Failed to save flight.");
     }
   };
 
+
   return (
-    <div className="search-form-container flight-search"> {/* I can reuse this class or make it specific */}
+    <div className="search-form-container flight-search">
       <h2>Flight Search</h2>
       <form onSubmit={handleFlightSearch} className="search-form">
-        <div className="form-row">
-            <div className="form-group">
-                <label htmlFor="origin">Origin (Airport Code or City)</label>
-                <input type="text" id="origin" name="origin" value={flightSearchData.origin} onChange={handleFlightChange} placeholder="e.g., JFK or New York" required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="destination">Destination (Airport Code or City)</label>
-                <input type="text" id="destination" name="destination" value={flightSearchData.destination} onChange={handleFlightChange} placeholder="e.g., LAX or Los Angeles" required />
-            </div>
-        </div>
-        <div className="form-row">
-            <div className="form-group">
-                <label htmlFor="departureDate">Departure Date</label>
-                <input type="date" id="departureDate" name="departureDate" value={flightSearchData.departureDate} onChange={handleFlightChange} required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="returnDate">Return Date (Optional for One-Way)</label>
-                <input type="date" id="returnDate" name="returnDate" value={flightSearchData.returnDate} onChange={handleFlightChange} />
-            </div>
-        </div>
-         <div className="form-group">
-            <label htmlFor="adults">Adults (16+)</label>
-            <input type="number" id="adults" name="adults" min="1" value={flightSearchData.adults} onChange={handleFlightChange} />
-        </div>
+        {/* ... existing form fields ... */}
         <button type="submit" className="btn btn-primary" disabled={flightLoading}>
           {flightLoading ? 'Searching Flights...' : 'Search Flights'}
         </button>
-        {/* Display error message if flightError is set AND there are no results */}
         {flightError && flightResults.length === 0 && <p className="form-error-message general-error" style={{marginTop: '10px'}}>{flightError}</p>}
       </form>
 
-      {/* Flight Results Area - only show if not loading and there are results */}
       {!flightLoading && flightResults.length > 0 && (
         <div className="results-container flight-results">
           <h3>Flight Results ({flightResults.length})</h3>
-          {flightResults.map((flight, index) => (
-            <div key={flight.id || index} className="result-card flight-card">
+          {flightResults.map((flight) => ( // Removed index as key if flight.id is reliable
+            <div key={flight.id} className="result-card flight-card">
               <h4>{flight.airlineName} ({flight.airlineCode} {flight.flightNumber})</h4>
               <p><strong>From:</strong> {flight.departureCity} ({flight.departureAirportCode}) at {new Date(flight.departureTimeLocal).toLocaleString()}</p>
               <p><strong>To:</strong> {flight.arrivalCity} ({flight.arrivalAirportCode}) at {new Date(flight.arrivalTimeLocal).toLocaleString()}</p>
               <p><strong>Duration:</strong> {flight.durationFormatted}</p>
               <p><strong>Price:</strong> {flight.price ? `$${flight.price.toFixed(2)} ${flight.currency}` : 'N/A'}</p>
-              {flight.bookingLink && <a href={flight.bookingLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary-outline btn-small">Book Now via {flight.provider}</a>}
+              {flight.bookingLink && <a href={flight.bookingLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary-outline btn-small" style={{marginRight: '10px'}}>Book Now via {flight.provider}</a>}
+              {token && userTrips.length > 0 && (
+                  <button onClick={() => openSaveToTripModal(flight)} className="btn btn-primary btn-small">Save to Trip</button>
+              )}
             </div>
           ))}
+        </div>
+      )}
+
+      {showTripModal && selectedFlightForSave && (
+        <div className="modal-overlay"> {/* You can reuse modal CSS from SearchAccommodations.css or move to App.css */}
+          <div className="modal-content">
+            <h3>Save Flight ({selectedFlightForSave.airlineName} to {selectedFlightForSave.arrivalCity}) to a Trip</h3>
+            {userTrips.length > 0 ? (
+              <ul className="trip-selection-list">
+                {userTrips.map(trip => (
+                  <li key={trip._id} onClick={() => handleSaveFlightToTrip(trip._id)}>
+                    {trip.tripName} ({trip.destinationCity})
+                  </li>
+                ))}
+              </ul>
+            ) : <p>You have no trips. Create one first!</p>}
+            <button onClick={() => { setShowTripModal(false); setSelectedFlightForSave(null);}} className="btn btn-secondary">Cancel</button>
+          </div>
         </div>
       )}
     </div>

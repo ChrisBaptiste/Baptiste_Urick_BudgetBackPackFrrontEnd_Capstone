@@ -1,0 +1,88 @@
+/* src/components/Search/SearchAccommodations.css */
+.accommodation-search {
+    /* Specific styles if needed */
+}
+
+.accommodation-card {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: flex-start; /* Align items to the top */
+}
+
+.accommodation-image {
+    width: 150px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.accommodation-details {
+    flex: 1;
+}
+
+.accommodation-card h4 {
+    margin-top: 0;
+    margin-bottom: 5px; /* Reduced margin */
+}
+.accommodation-card p {
+    margin-bottom: 4px; /* Reduced margin */
+    font-size: 0.9rem;
+}
+
+
+/* Modal Styles (can be global or component-specific) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.trip-selection-list {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.trip-selection-list li {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.trip-selection-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.modal-content .btn-secondary {
+    margin-top: 10px;
+    display: block; /* Or float right, etc. */
+    margin-left: auto;
+}

@@ -1,93 +1,125 @@
-// src/context/AuthContext.jsx
+// src/context/AuthContext.jsx - Fixed version
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios'; // I might need axios if I fetch user data after login.
+import axios from 'axios';
 
-// First, I'm creating the context itself.
 const AuthContext = createContext();
 
-// Then, I'm creating a custom hook to make it easier to use this context elsewhere in my app.
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
 
-// This is my AuthProvider component. It will wrap around parts of my app that need auth state.
 export const AuthProvider = ({ children }) => {
-  // I need state to hold the authentication token.
-  // I'll initialize it by checking localStorage to see if a token already exists (e.g., from a previous session).
   const [token, setToken] = useState(localStorage.getItem('token'));
-  // I could also store user information here.
-  const [user, setUser] = useState(null); // For now, null. I could fetch user data later.
-  const [loading, setLoading] = useState(true); // To handle initial loading state while checking token.
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // This useEffect hook will run once when the AuthProvider mounts.
-  // Its job is to validate the token from localStorage, if it exists.
+  // Token validation function
+  const validateToken = async (tokenToValidate) => {
+    try {
+      // Set the token in axios headers
+      axios.defaults.headers.common['Authorization'] = `Bearer ${tokenToValidate}`;
+      
+      // Try to fetch user data or validate token
+      // Since you don't have a /me endpoint yet, we'll just assume it's valid
+      // In production, you should add a GET /api/auth/me endpoint
+      
+      return true; // Token is valid
+    } catch (error) {
+      console.error('Token validation failed:', error);
+      return false; // Token is invalid
+    }
+  };
+
+  // Initialize authentication state
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      // If I have a token, I should set it in my state.
-      setToken(storedToken);
-      // I also need to set the default Authorization header for axios so that
-      // all subsequent API calls automatically include the token.
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+    const initializeAuth = async () => {
+      const storedToken = localStorage.getItem('token');
       
-      
-      // For now, I'll just assume the token is valid if it exists, for simplicity given the deadline.
-      setLoading(false); // Placeholder for now
-    } else {
-      // If no token, just finish loading.
-      setLoading(false);
-    }
-  }, []); // The empty dependency array means this runs only once on mount.
-
-  // This function will be called when a user successfully logs in or registers.
-  const loginAction = (newToken) => {
-    localStorage.setItem('token', newToken); // Storing the new token.
-    setToken(newToken); // Updating the token in my state.
-    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`; // Setting for future axios calls.
-  };
-
-  // Add to AuthContext.jsx
-useEffect(() => {
-  const responseInterceptor = axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response?.status === 401) {
-        logoutAction();
-        navigate('/login');
+      if (storedToken) {
+        const isValid = await validateToken(storedToken);
+        
+        if (isValid) {
+          setToken(storedToken);
+          // TODO: Fetch user data here when you add /api/auth/me endpoint
+          // const response = await axios.get('/api/auth/me');
+          // setUser(response.data);
+        } else {
+          // Token is invalid, clear it
+          localStorage.removeItem('token');
+          delete axios.defaults.headers.common['Authorization'];
+        }
       }
-      return Promise.reject(error);
+      
+      setLoading(false);
+    };
+
+    initializeAuth();
+  }, []);
+
+  // Set up axios response interceptor for automatic logout on 401
+  useEffect(() => {
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401 && token) {
+          console.log('Received 401, logging out user');
+          logoutAction();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, [token]);
+
+  const loginAction = (newToken, userData = null) => {
+    try {
+      localStorage.setItem('token', newToken);
+      setToken(newToken);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+      
+      if (userData) {
+        setUser(userData);
+      }
+      
+      console.log('User logged in successfully');
+    } catch (error) {
+      console.error('Error during login action:', error);
     }
-  );
-
-  return () => axios.interceptors.response.eject(responseInterceptor);
-}, []);
-
-  // This function will handle user logout.
-  const logoutAction = () => {
-    localStorage.removeItem('token'); // Removing the token from storage.
-    setToken(null); // Clearing the token from my state.
-    setUser(null); // Clearing user data.
-    delete axios.defaults.headers.common['Authorization']; // Removing the auth header from axios.
-    // I'll likely redirect the user to the login page after logout from the component calling this.
   };
 
-  // The value prop of the Provider is what gets passed down to consuming components.
-  // It includes the authentication state and the login/logout functions.
+  const logoutAction = () => {
+    try {
+      localStorage.removeItem('token');
+      setToken(null);
+      setUser(null);
+      delete axios.defaults.headers.common['Authorization'];
+      
+      console.log('User logged out successfully');
+    } catch (error) {
+      console.error('Error during logout action:', error);
+    }
+  };
+
   const authContextValue = {
     token,
     user,
-    isAuthenticated: !!token, // A simple way to check if the user is authenticated.
-    loading, // To let components know if auth state is still being determined.
+    isAuthenticated: !!token,
+    loading,
     loginAction,
     logoutAction,
-    // setUser, // I might expose setUser if user data fetching is complex
+    setUser, // Expose for future use
   };
 
-  // I'm returning the Provider component, wrapping the children.
-  // I only render children once the initial loading (token check) is complete.
   return (
     <AuthContext.Provider value={authContextValue}>
-      {!loading && children} 
+      {children}
     </AuthContext.Provider>
   );
 };

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import SearchFlights from '../../components/Search/SearchFlights';
 import SearchEvents from '../../components/Search/SearchEvents';
 import SearchAccommodations from '../../components/Search/SearchAccommodations'; // Import new component
+import ApiTester from '../../components/Debug/ApiTester';
 import './SearchPage.css';
 
 const SearchPage = () => {
@@ -11,6 +12,7 @@ const SearchPage = () => {
 
   return (
     <div className="search-page-container container">
+      <ApiTester />
       <h1>Find Your Next Adventure</h1>
       <p>Search for budget-friendly flights, accommodations, and exciting local events for your trips.</p>
 

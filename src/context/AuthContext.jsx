@@ -46,6 +46,22 @@ export const AuthProvider = ({ children }) => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`; // Setting for future axios calls.
   };
 
+  // Add to AuthContext.jsx
+useEffect(() => {
+  const responseInterceptor = axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        logoutAction();
+        navigate('/login');
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  return () => axios.interceptors.response.eject(responseInterceptor);
+}, []);
+
   // This function will handle user logout.
   const logoutAction = () => {
     localStorage.removeItem('token'); // Removing the token from storage.

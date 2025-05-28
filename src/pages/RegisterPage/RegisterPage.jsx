@@ -174,7 +174,7 @@ const RegisterPage = () => {
             {fieldErrors.confirmPassword && <p id="confirmPassword-error" className="form-error-message">{fieldErrors.confirmPassword}</p>}
           </div>
 
-          <button type="submit" className="btn-register primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary" style={{width: '100%'}} disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>

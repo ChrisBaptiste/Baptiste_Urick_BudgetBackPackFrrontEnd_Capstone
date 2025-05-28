@@ -109,7 +109,7 @@ const LoginPage = () => {
             {fieldErrors.password && <p className="form-error-message">{fieldErrors.password}</p>}
           </div>
 
-          <button type="submit" className="btn-login primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary" style={{width: '100%'}} disabled={loading}>
             {loading ? 'Logging In...' : 'Login'}
           </button>
         </form>

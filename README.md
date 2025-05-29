@@ -44,7 +44,7 @@ This is the frontend client for the BudgetBackpack application, a full-stack tra
 
 
 
-## 4. Setup and Installation
+## 3. Setup and Installation
 
 ### Prerequisites
 *   Node.js (v16.x or later recommended)
@@ -63,7 +63,7 @@ This is the frontend client for the BudgetBackpack application, a full-stack tra
     npm install
     
 4.  **Create a `.env` file** in the `ClientSide-Server` root directory. 
-## 5. Running the Frontend
+## 4. Running the Frontend
 
 1.  Ensure the [BudgetBackpack Backend Server](#link-to-backend-repository-your-github-link-to-backend-server-here) is running and accessible (on `http://localhost:5001`).
 2.  Start the frontend development server:
@@ -72,7 +72,7 @@ This is the frontend client for the BudgetBackpack application, a full-stack tra
     
 3.  The application will  start on port 5000 (or as specified in your `vite.config.js` or by Vite if the port is in use). Open your browser and navigate to `http://localhost:5000` (or the assigned port).
 
-## 6. Key Components & Pages
+## 5. Key Components & Pages
 
    **`App.jsx`**: The root component that sets up React Router and the main layout (Navbar, main content area, Footer).
    **`AuthContext.jsx`**: Manages global authentication state (token, user status) and provides login/logout actions.
@@ -89,7 +89,7 @@ This is the frontend client for the BudgetBackpack application, a full-stack tra
        `SearchEvents.jsx`: Form and results display for event/place searches.
    **`Navbar.jsx`**: Provides site navigation, adapting links based on authentication state.
 
-## 7. Environment Variables
+## 6. Environment Variables
 
 Create a `.env` file in the `ClientSide-Server` root with the following variable:
 
@@ -98,11 +98,11 @@ VITE_API_BASE_URL=http://localhost:5001/api
 Use code with caution.
 VITE_API_BASE_URL: The base URL for the backend API. Vite requires environment variables exposed to the client-side bundle to be prefixed with VITE_. This URL is used by Axios and the Vite development server proxy.
 
-8. Author
+7. Author
 Name: Urick Chris Baptiste
 Contact: https://www.linkedin.com/in/urick-baptiste/
 
-9. Credits
+8. Credits
 Code Stoic - https://www.youtube.com/@ashutoshpawar (81 short but well explained youtube video tutorials on React)
 web dev cody - https://www.youtube.com/watch?v=dX_LteE0NFM 
 web dev simplified - https://www.youtube.com/watch?v=mbsmsi7l3r4
